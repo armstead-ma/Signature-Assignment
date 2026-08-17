@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fan's Closet - Contact Us</title>
+    <link rel="stylesheet" href="global.css">
+</head>
+
+<body>
+
+<header>
+    <h1><a href="index.html">The Fan's Closet</a></h1>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="About Us.html">Contact Us</a></li>
+        <li><a href="Support.html">Support</a></li>
+    </ul>
+</nav>
+
+<main>
+    <h2>Contact Us</h2>
+    <p>Have questions about our products? Fill out the form below to get in touch with us.</p>
+
+    <form id="contactForm" action="submit-contactform" method="post" onsubmit="return validateForm(event)">
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+            <div class="error-message" id="firstNameError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
+            <div class="error-message" id="lastNameError"></div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" placeholder="Los Angeles">
+            <div class="error-message" id="cityError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="zipcode">Zipcode</label>
+            <input type="text" id="zipcode" name="zipcode" placeholder="12345">
+            <div class="error-message" id="zipError"></div>
+        </div>
+
+         <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="john@example.com">
+            <div class="error-message" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+            <div class="error-message" id="phoneError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="How can we help you?"></textarea>
+        </div>
+
+        <div class="error-message" id="messageError"></div>
+
+        <button type="submit">Send Message</button>
+        <div id="formStatus"></div>
+    </form>
+            <footer>
+                Copyright &copy; 2026 The Fan's Closet
+            </footer>
+</main>
+
+    <script>
+    function toTitleCase(str) {
+        if (!str) return '';
+        return str
+            .trim()
+            .toLowerCase()
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
+    }
+
+    function isValidZip(zip) {
+        return /^\d{5}(-\d{4})?$/.test(zip);
+    }
+
+    function isValidEmail(email) {
+        return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/.test(email);
+    }
+
+    function validateForm(event) {
+        event.preventDefault();
+
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const city = document.getElementById('city').value;
+        const zip = document.getElementById('zip').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const message = document.getElementById('message').value;
+
+        const firstNameError = document.getElementById('firstNameError');
+        const lastNameError = document.getElementById('lastNameError');
+        const cityError = document.getElementById('cityError');
+        const zipError = document.getElementById('zipError');
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+        const messageError = document.getElementById('messageError');
+        const formStatus = document.getElementById('formStatus');
+
+        firstNameError.textContent = '';
+        lastNameError.textContent = '';
+        cityError.textContent = '';
+        zipError.textContent = '';
+        emailError.textContent = '';
+        phoneError.textContent = '';
+        messageError.textContent = '';
+        formStatus.textContent = '';
+        formStatus.className = '';
+
+        document.querySelectorAll('.form-group input, .form-group textarea')
+            .forEach(el => el.classList.remove('error'));
+
+        let isValid = true;
+
+        if (!firstName.trim()) {
+            firstNameError.textContent = 'First name is required.';
+            document.getElementById('firstName').classList.add('error');
+            isValid = false;
+        } else {
+            document.getElementById('firstName').value = toTitleCase(firstName);
+        }
+
+        if (!lastName.trim()) {
+            lastNameError.textContent = 'Last name is required.';
+            document.getElementById('lastName').classList.add('error');
+            isValid = false;
+        } else {
+            document.getElementById('lastName').value = toTitleCase(lastName);
+        }
+
+        if (!city.trim()) {
+            cityError.textContent = 'City is required.';
+            document.getElementById('city').classList.add('error');
+            isValid = false;
+        } else {
+            document.getElementById('city').value = toTitleCase(city);
+        }
+
+        if (!zip.trim()) {
+            zipError.textContent = 'Zip code is required.';
+            document.getElementById('zip').classList.add('error');
+            isValid = false;
+        } else if (!isValidZip(zip.trim())) {
+            zipError.textContent = 'Please enter a valid zip code (e.g., 12345 or 12345-6789).';
+            document.getElementById('zip').classList.add('error');
+            isValid = false;
+        }
+
+        if (!email.trim()) {
+            emailError.textContent = 'Email address is required.';
+            document.getElementById('email').classList.add('error');
+            isValid = false;
+        } else if (!isValidEmail(email.trim())) {
+            emailError.textContent = 'Please enter a valid email address (e.g., name@domain.com).';
+            document.getElementById('email').classList.add('error');
+            isValid = false;
+        }
+
+        const phonePattern = /^\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4}$/;
+        if (phone.trim() && !phonePattern.test(phone.trim())) {
+            phoneError.textContent = 'Please enter a valid phone number (e.g., (555) 123-4567 or 555-123-4567).';
+            document.getElementById('phone').classList.add('error');
+            isValid = false;
+        }
+
+        if (!message.trim()) {
+            messageError.textContent = 'Message is required.';
+            document.getElementById('message').classList.add('error');
+            isValid = false;
+        }
+
+        if (isValid) {
+            formStatus.textContent = 'Your message has been sent successfully!';
+            formStatus.className = 'success';
+            return true;
+        } else {
+            formStatus.textContent = 'Please fix the errors above and try again.';
+            formStatus.className = 'error';
+            const firstError = document.querySelector('.form-group input.error, .form-group textarea.error');
+            if (firstError) {
+                firstError.focus();
+            }
+            return false;
+        }
+    }
+</script>
+
+</body>
+</html>
